@@ -1,4 +1,4 @@
-FROM rust:latest AS build
+FROM rust:alpine AS build
 
 WORKDIR /app
 
@@ -9,6 +9,9 @@ RUN cargo build --release
 FROM alpine:latest
 
 WORKDIR /app
+
+# Install GCC runtime and other libraries needed by your binary
+RUN apk add --no-cache libgcc
 
 COPY --from=build /app/target/release/calculator /app/calculator
 

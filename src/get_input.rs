@@ -27,25 +27,29 @@ pub fn get_input() -> (Option<f64>, Option<f64>, Option<String>) {
       
   operator =  operator.trim().to_string();
 
-  let mut second_number = String::new();
 
-  print!("Enter the second number: ");
-  io::stdout().flush().unwrap();
+  let mut second_number = None;
 
-  io::stdin()
-      .read_line(&mut second_number)
-      .expect("failed to read the number");
+  if operator != "fact" { 
+    let mut second_input = String::new();
 
-      let second_number: Option<f64> = match second_number
-      .trim()
-      .parse()
-      {
-          Ok(first_number) => Some(first_number),
-          Err(_) => {
-              println!("enter a number");
-              None
-          }
-      };
-  
+    print!("Enter the second number: ");
+    io::stdout().flush().unwrap();
+
+    io::stdin()
+        .read_line(&mut second_input)
+        .expect("failed to read the number");
+
+        second_number  = match second_input
+        .trim()
+        .parse()
+        {
+            Ok(first_number) => Some(first_number),
+            Err(_) => {
+                println!("enter a number");
+                return (first_number, None, Some(operator));
+            }
+        };
+    }
   (first_number, second_number, Some(operator))
 }
